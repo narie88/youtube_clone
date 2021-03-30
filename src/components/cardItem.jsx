@@ -1,13 +1,12 @@
-import React from "react";
-
-const CardItem = () => {
+import React, { useEffect } from "react";
+const CardItem = ({ item }) => {
   return (
     <a href="#none">
       <span>
         <img src="" alt="" />
       </span>
       <div className="info">
-        <strong>title</strong>
+        <strong>{item.snippet.title}</strong>
         <span>channel</span>
       </div>
     </a>
