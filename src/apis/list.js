@@ -11,7 +11,6 @@ const APIList = {
     url: "/search",
     params: {
       part: "snippet",
-      q: "bts",
       maxResults: 25,
     },
   },

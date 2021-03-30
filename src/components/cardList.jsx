@@ -3,18 +3,7 @@ import requestAPI, { APIList } from "../apis";
 
 import CardItem from "./cardItem";
 
-const CardList = () => {
-  const [items, setItems] = useState([]);
-  useEffect(() => {
-    const getSource = async () => {
-      console.log("a");
-      const {
-        data: { items },
-      } = await requestAPI(APIList.getMostPopular);
-      setItems(items);
-    };
-    getSource();
-  }, []);
+const CardList = ({ items }) => {
   return (
     <div>
       {items &&

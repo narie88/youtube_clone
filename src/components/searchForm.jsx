@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-const SearchForm = () => {
+const SearchForm = ({ onSearch }) => {
+  const [text, setText] = useState("");
+  const onChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setText(value);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    onSearch(text);
+  };
+
   return (
-    <form>
-      <input type="text" placeholder="search." />
+    <form onSubmit={onSubmit}>
+      <input type="text" placeholder="search." onChange={onChange} />
       <button type="submit">S</button>
     </form>
   );

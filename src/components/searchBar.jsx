@@ -1,11 +1,11 @@
 import React from "react";
-import SearchForm from "./searchForm";
+import SearchForm from "components/searchForm";
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
   return (
     <div>
       <a href="#none">로고</a>
-      <SearchForm />
+      <SearchForm onSearch={onSearch} />
     </div>
   );
 };

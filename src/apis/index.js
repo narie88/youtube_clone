@@ -8,8 +8,8 @@ const instance = axios.create({
   },
 });
 
-const requestAPI = async ({ url, params = {} }) => {
-  return await instance.get(url, { params: params });
+const requestAPI = async ({ url, params = {} }, query) => {
+  return await instance.get(url, { params: { ...params, ...query } });
 };
 
 export { APIList, requestAPI as default };
