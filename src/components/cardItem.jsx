@@ -1,16 +1,21 @@
-import React, { useEffect } from "react";
-const CardItem = ({ item }) => {
+import React, { memo, useEffect } from "react";
+import styles from "components/cardItem.module.css";
+const CardItem = ({ item, item: { snippet }, onSelected }) => {
   return (
-    <a href="#none">
-      <span>
-        <img src="" alt="" />
-      </span>
-      <div className="info">
-        <strong>{item.snippet.title}</strong>
-        <span>channel</span>
+    <li className={styles.container} onClick={() => onSelected(item)}>
+      <div className={styles.video}>
+        <img
+          className={styles.thumbnail}
+          src={snippet.thumbnails.medium.url}
+          alt="video thumbnail"
+        />
+        <div className={styles.metadata}>
+          <p className={styles.title}>{snippet.title}</p>
+          <p className={styles.channel}>{snippet.channelTitle}</p>
+        </div>
       </div>
-    </a>
+    </li>
   );
 };
 
-export default CardItem;
+export default memo(CardItem);

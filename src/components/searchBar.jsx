@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import SearchForm from "components/searchForm";
 
 const SearchBar = ({ onSearch }) => {
@@ -10,4 +10,4 @@ const SearchBar = ({ onSearch }) => {
   );
 };
 
-export default SearchBar;
+export default memo(SearchBar);

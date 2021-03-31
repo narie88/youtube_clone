@@ -1,38 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CardList from "components/cardList";
 import { Route, Switch } from "react-router";
 import requestAPI, { APIList } from "apis";
 import SearchBar from "components/searchBar";
-import qs from "query-string";
+import Home from "pages/home";
+import Detail from "pages/detail";
 
 const App = () => {
   const [items, setItems] = useState([]);
+  const [nextToken, setNextToken] = useState("");
+  const [dataItem, setDataItem] = useState({
+    nextPageToken: null,
+    prevPageToken: null,
+    pageInfo: {},
+  });
+  const [loading, setLoading] = useState(false);
 
+  //
   useEffect(() => {
-    const getData = async () => {
+    setLoading(true);
+    const res = async () => {
       const {
-        data: { items },
+        data: { items, nextPageToken, prevPageToken, pageInfo },
       } = await requestAPI(APIList.getMostPopular);
       setItems(items);
+      setNextToken(nextPageToken);
+      setLoading(false);
     };
-    getData();
+    res();
   }, []);
 
-  const onSearch = (q) => {
-    console.log(typeof q);
-    const getData = async () => {
+  const onSearch = useCallback((qs) => {
+    setLoading(true);
+    const res = async () => {
       const {
-        data: { items },
-      } = await requestAPI(APIList.getSearch, { q: q });
+        data: { items, nextPageToken },
+      } = await requestAPI(APIList.getSearch, { q: qs });
       setItems(items);
+      setNextToken(nextPageToken);
+      setLoading(false);
     };
-    getData();
-  };
+    res();
+  }, []);
+
+  const onMore = useCallback(() => {
+    const res = async () => {
+      const {
+        data: { items: newItems, nextPageToken },
+      } = await requestAPI(APIList.getMostPopular, {
+        pageToken: nextToken,
+      });
+
+      setItems([...items, ...newItems]);
+      setNextToken(nextPageToken);
+      setLoading(false);
+    };
+    res();
+  }, []);
   return (
     <div>
-      <SearchBar onSearch={onSearch} />
-      <CardList items={items} />
-      <Switch>{/* <Route /> */}</Switch>
+      <Switch>
+        <Route path="/" component={Home} exact />
+        <Route path="/detail" component={Detail} />
+      </Switch>
     </div>
   );
 };
